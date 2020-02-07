@@ -50,7 +50,10 @@ for epoch in range(2):
         inputs, label = train[i], labels[i]
         inputs, label = inputs.to(device), label.to(device)
         inputs = inputs.unsqueeze(0).float() / 255.0
-        # inputs = inputs.view([1, 1, 28, 28])
+
+        inputs = inputs.view([1, 1, 28, 28])
+        if i == 0:
+            print(inputs)
         label = label.long().unsqueeze(0)
         optimizer.zero_grad()
         outputs = net(inputs)
@@ -67,4 +70,3 @@ print(f'time cost = {time() - start}')
 # save model
 PATH = './MNIST_net.pth'
 torch.save(net.state_dict(), PATH)
-

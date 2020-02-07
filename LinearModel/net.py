@@ -9,8 +9,6 @@ class Net(nn.Module):
     
     def forward(self, x):
         x = self.fc(x)
-        # x = relu(x)
-        # x = nn.functional.softmax(x, dim = 1)
         return x
 
 # # One-Hidden-Layer Fully Connected Multilayer NN
