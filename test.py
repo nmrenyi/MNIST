@@ -7,17 +7,40 @@ import torch.nn as nn
 from torch.nn.functional import relu
 import torch.optim as optim
 
-batch_size = 5
-nb_classes = 2
-in_features = 10
+net = Net()
+net.load_state_dict(torch.load('MNIST_net.pth'))
 
-model = nn.Linear(in_features, nb_classes)
-criterion = nn.CrossEntropyLoss()
 
-x = torch.randn(batch_size, in_features)
-target = torch.empty(batch_size, dtype=torch.long).random_(nb_classes)
-print(x)
-print(target)
-output = model(x)
-loss = criterion(output, target)
-loss.backward()
+# test, label = loadlocal_mnist(r'data\train-images-idx3-ubyte\train-images.idx3-ubyte', r'data\train-labels-idx1-ubyte\train-labels.idx1-ubyte')
+
+test, label = loadlocal_mnist(r'data\t10k-images-idx3-ubyte\t10k-images.idx3-ubyte', r'data\t10k-labels-idx1-ubyte\t10k-labels.idx1-ubyte')
+test = torch.from_numpy(test)
+labels = torch.from_numpy(label)
+
+def show(image, label = ''):
+    r = np.reshape(image, [28, 28])
+    plt.figure()
+    plt.imshow(r, cmap='gray')
+    plt.title(str(label))
+    plt.show()
+
+
+total = 0
+correct = 0
+
+for i in range(len(test)):
+    inputs = test[i].unsqueeze(0).float() / 255.0
+    label = labels[i].long().unsqueeze(0)
+    outputs = net(inputs)
+    _, predicted = torch.max(outputs, 1)
+    total += 1
+    correct += (predicted == label).item()
+    # result = ''
+    # if (predicted == label).item():
+    #     result = 'Yes!'
+    # else:
+    #     result = 'No!'
+    # print(f'predicted = {predicted.item()}, label = {label.item()}, {result}')
+    
+
+print(f'Accuracy of {len(test)} samples = {correct / (0.0 + total)}')

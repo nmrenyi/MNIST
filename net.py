@@ -8,5 +8,5 @@ class Net(nn.Module):
     
     def forward(self, x):
         x = self.fc(x)
-        # x = nn.functional.softmax(x, dim = 0)
+        x = nn.functional.softmax(x, dim = 1)
         return x

@@ -10,7 +10,11 @@ import torch.optim as optim
 
 
 train, label = loadlocal_mnist(r'data\train-images-idx3-ubyte\train-images.idx3-ubyte', r'data\train-labels-idx1-ubyte\train-labels.idx1-ubyte')
+train = torch.from_numpy(train)
+labels = torch.from_numpy(label)
 
+# train = train.unsqueeze(0).float / 255.0
+# labels = label.unsqueeze(0).long()
 
 # train size: 60000*784, label: 60000
 
@@ -24,25 +28,20 @@ def show(image, label = ''):
 # for i in range(5):
 #     show(train[i], label[i])
 
-train = torch.from_numpy(train)
-label = torch.from_numpy(label)
-labels = label
-# labels = torch.zeros([label.shape[0], 10])
-# for i in range(label.shape[0]):
-#     labels[i][int(label[i])] = 1.0
+
 net = Net()
 
 # TODO 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 
 # TODO how many epochs, SGD?
 for epoch in range(2):
     running_loss = 0.0
     for i in range(len(train)):
         inputs, label = train[i], labels[i]
-        inputs = inputs.unsqueeze(0).float() / 255.0
 
+        inputs = inputs.unsqueeze(0).float() / 255.0
         label = label.long().unsqueeze(0)
 
         optimizer.zero_grad()
