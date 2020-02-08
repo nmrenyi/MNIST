@@ -9,9 +9,11 @@ import torch.optim as optim
 from sklearn.utils import shuffle
 from time import time
 
-# TODO MINI-BATCH
+# TODO MINI-BATCH!!!!!! How to use in pytorch
 # TODO SGD??
 # TODO LeNET
+# TODO Momentum
+
 
 train, label = loadlocal_mnist(r'data\train-images-idx3-ubyte\train-images.idx3-ubyte', r'data\train-labels-idx1-ubyte\train-labels.idx1-ubyte')
 train = torch.from_numpy(train)
@@ -52,8 +54,6 @@ for epoch in range(2):
         inputs = inputs.unsqueeze(0).float() / 255.0
 
         inputs = inputs.view([1, 1, 28, 28])
-        if i == 0:
-            print(inputs)
         label = label.long().unsqueeze(0)
         optimizer.zero_grad()
         outputs = net(inputs)

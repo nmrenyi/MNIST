@@ -7,6 +7,8 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.conv1 = nn.Conv2d(1, 6, 5) # 28 -- 24
         self.pool = nn.AvgPool2d((2, 2)) # 24 -- 12
+        # self.pool = nn.MaxPool2d((2, 2)) # 24 -- 12
+
         self.conv2 = nn.Conv2d(6, 16, 5) # 12 -- 8*8
         self.fc1 = nn.Linear(16 * 4 * 4, 120) # 16 * 8 * 8
         self.fc2 = nn.Linear(120, 84)
@@ -19,6 +21,7 @@ class Net(nn.Module):
         x = relu(self.fc1(x))
         x = relu(self.fc2(x))
         x = self.fc3(x)
+        # x = nn.functional.softmax(x, dim = 1)
         return x
 
     def num_flat_features(self, x):
